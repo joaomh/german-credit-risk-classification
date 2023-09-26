@@ -1,11 +1,9 @@
----
-layout: post
-title: "German Banking Risk Credit Predict"
-featured-img: credit-risk
----
 
 
-This is german risk Credit dataset can be found in Kaggle [German Risk](https://www.kaggle.com/datasets/kabure/german-credit-data-with-risk) my goal is to create a predict model and use this model to create an score for each client.
+This is German risk Credit dataset that can be found in Kaggle [German Risk](https://www.kaggle.com/datasets/kabure/german-credit-data-with-risk) My goal is to create a predicting model and use this model to create a score for each client.
+
+For a better visualization of this README, please access my Blog
+- [joaomh - banking risk predict](https://joaomh.github.io/banking-risk-predict/)
 
 # Tables of Content:
 
@@ -14,28 +12,28 @@ This is german risk Credit dataset can be found in Kaggle [German Risk](https://
     - Info's about datasets
 **2. [Dataset](#Dataset)** 
 
-    - Importing Librarys
+    - Importing Libraries
     - Importing Dataset
     - The first rows of our dataset
-    - Looking the Type of Data
+    - Looking at the Type of Data
     - Shape of data
     - Null Numbers
     - Unique values
 **4. [EDA](#EDA)**
 
-    - Ploting some graphical and descriptive informations
+    - Plotting some graphical and descriptive information
 **5. [Correlation of data](#Correlation)** 
 
 	- Correlation Data
 **6. [Preprocess](#Preprocessing)** 
 
-    - One hot Enconding
-    - Ordinal Enconding
+    - One hot Encoding
+    - Ordinal Encoding
     - Correlation Data
 **7.  [Model](#Training)** 
 
     - Setting X and Y
-    - Spliting the X and Y in train and test 
+    - Splitting the X and Y in train and test 
     - XGBoost, LGBM, CART
     - Cross Validation 
 **8.  [Hyperparameter Optimization using Optuna](#Hyperparameter)**
@@ -53,7 +51,7 @@ This is german risk Credit dataset can be found in Kaggle [German Risk](https://
 # Introduction
 Context
 
-Each person is classified as good or bad credit risks according to the set of attributes.The selected attributes are:
+Each person is classified as having good or bad credit risks according to the set of attributes. The selected attributes are:
 * Age (numeric)
 * Sex (text: male, female)
 * Job (numeric: 0 - unskilled and non-resident, 1 - unskilled and resident, 2 - skilled, 3 - highly skilled)
@@ -67,7 +65,7 @@ Each person is classified as good or bad credit risks according to the set of at
 
 The business team came to you because they want to understand the behavior and the profile of the most risk clients and our goal here is to create a predictive model to help them
 
-My goal here is to create a predict model, after that I'll use optuna for hyperparameter optimization then 'rank' the customer in scores and then use the shap for identify each variable is most important
+My goal here is to create a predict model, that I'll use optuna for hyperparameter optimization then 'rank' the customer in scores, and then use the shap to identify each variable is the most important
 
 # Dataset
 
@@ -314,7 +312,7 @@ df
 
 
 ```python
-# knowing the shape of the data and search for missing
+# knowing the shape of the data and searching for missing
 print(df.info())
 ```
 
@@ -360,7 +358,7 @@ print(df.nunique())
 
 
 # EDA
-Let's start looking through target variable and their distribuition, here I'll show only some variables that I tought they have some interesting distribution, to see the others look de Notebook in GitHub Repository
+Let's start looking through the target variable and their distribution, here I'll show only some variables that I thought they have some interesting distribution, to see the others look the Notebook in the GitHub Repository
 
 ```python
 df_age = df['Age'].values.tolist()
@@ -434,7 +432,7 @@ fig = dict(data=data, layout=layout)
 py.iplot(fig, filename='custom-sized-subplot-with-subplot-titles')
 ```
 ![House](https://github.com/joaomh/joaomh.github.io/blob/main/assets/post_img/german-credit-risk/housing.png?raw=true)
-People that owns house have better credit.
+People who own a house have better credit.
 
 
 ```python
@@ -472,7 +470,7 @@ fig = dict(data=data, layout=layout)
 py.iplot(fig, filename='custom-sized-subplot-with-subplot-titles')
 ```
 ![Saving](https://github.com/joaomh/joaomh.github.io/blob/main/assets/post_img/german-credit-risk/saving.png?raw=true)
-People with more savings accounts also have a better credit
+People with more savings accounts also have better credit
 
 ```
 df_checking = df['Checking account'].values.tolist()
@@ -547,7 +545,7 @@ fig = dict(data=data, layout=layout)
 py.iplot(fig, filename='custom-sized-subplot-with-subplot-titles')
 ```
 ![Credit](https://github.com/joaomh/joaomh.github.io/blob/main/assets/post_img/german-credit-risk/credit_amount.png?raw=true)
-People with more than 4k in credit amount have a bad credit than people with less
+People with more than 4k in credit amount have worse credit than people with less
 
 ```python
 df_purpose = df['Purpose'].values.tolist()
@@ -586,7 +584,7 @@ py.iplot(fig, filename='custom-sized-subplot-with-subplot-titles')
 ![Purpose](https://github.com/joaomh/joaomh.github.io/blob/main/assets/post_img/german-credit-risk/purpose.png?raw=true)
 People that the purpose is to buy radio/TV have a better credit
 
-Now let's see the distrubution using two variables
+Now let's see the distribution using two variables
 
 ```python
 df_good = df.loc[df["Risk"] == 'good']['Checking account'].values.tolist()
@@ -609,7 +607,7 @@ data = [box_1, box_2]
 
 layout = go.Layout(
     yaxis=dict(
-        title='Credit Amount by Checking Account'
+        title='Credit Amount by Checking Account
     ),
     boxmode='group'
 )
@@ -618,7 +616,7 @@ fig = go.Figure(data=data, layout=layout)
 py.iplot(fig, filename='box-age-cat')
 ```
 ![Credit](https://github.com/joaomh/joaomh.github.io/blob/main/assets/post_img/german-credit-risk/amount_checking.png?raw=true)
-The credit amount is also less in rich people (checking account), even in the bad credit
+The credit amount is also less in rich people (checking account), even in those bad credit
 
 ```python
 
@@ -651,7 +649,7 @@ fig = go.Figure(data=data, layout=layout)
 py.iplot(fig, filename='box-age-cat')
 ```
 ![Credit](https://github.com/joaomh/joaomh.github.io/blob/main/assets/post_img/german-credit-risk/amount_job.png?raw=true)
-Unskilled and non-resident with bag credit have more credit amount than the others
+Unskilled and non-residents with bag credit have more credit amount than the others
 
 # Preprocessing
 
@@ -700,7 +698,7 @@ df.isna().sum()
 
 
 
-We will use one hot enconding for the sex, housing and purpose variable.
+We will use one-hot encoding for the sex, housing, and purpose variables.
 
 
 ```python
@@ -711,7 +709,7 @@ one_hot = {
 }
 ```
 
-And ordinal enconding for the others
+And ordinal encoding for the others
 
 
 ```python
@@ -1435,7 +1433,7 @@ py.iplot(fig, filename='box-age-cat')
 ```
 ![Models](https://github.com/joaomh/joaomh.github.io/blob/main/assets/post_img/german-credit-risk/models_train.png?raw=true)
 
-The best models was RandomForest and LGBM, we are going to train this model and use optuna for hyperparameter optimization.
+The best models were RandomForest and LGBM, we are going to train this model and use optuna for hyperparameter optimization.
 
 ```python
 lgbm_model = LGBMClassifier(**lgbmparameters).fit(X_train, y_train)
@@ -1806,7 +1804,7 @@ shap_test = explainer.shap_values(X_test)
     LightGBM binary classifier with TreeExplainer shap values output has changed to a list of ndarray
 
 
-Here we are going to create new variables from shap. The goal is to make more easier to use our final model, for example we want to select the clients with hight scores and have more cash in checking account
+Here we are going to create new variables from shap. The goal is to make more easier to use our final model, for example, we want to select the clients with high scores and have more cash in their checking account
 
 
 ```python
@@ -2385,7 +2383,7 @@ creating a column score from our predeict_proba
 df_final['score'] = y_prob_lgbm[:,1]
 ```
 
-we well divide our clients in 5 groups based in the score, this number we can use any number to see with our model is ordering some variables
+we will divide our clients into 5 groups based on the score, this number we can use any number to see if our model is ordering some variables
 
 
 ```python
